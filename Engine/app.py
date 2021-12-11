@@ -19,7 +19,7 @@ def create_app():
     #commands.init_app(app)
     
     # register blueprint
-    app.register_blueprint(main)
+    app.register_blueprint(main,url_prefix="/api")
     #app.register_blueprint(product)
     #app.register_blueprint(contact)
     #app.register_blueprint(about)
