@@ -12,7 +12,11 @@ def create_app():
     app = Flask(__name__)
     # setup with the configuration provided by the user / environment
     #app.config.from_object(os.environ['APP_SETTINGS'])
-    
+    app.config['TESTING'] = True
+    app.config['DEBUG'] = True
+    app.config['FLASK_ENV'] = 'development'
+    app.config['SECRET_KEY'] = 'GDtfDCFYjD'
+    #app.config['DEBUG'] = False  # actually I want debug to be off now
     # setup all our dependencies
     #database.init_app(app)
     #commands.init_app(app)

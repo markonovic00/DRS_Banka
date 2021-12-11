@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template,jsonify
+from flask import Blueprint, render_template,jsonify,session
 import flask
 from mysql.connector import connection
 from requests.api import request
 from .models.db import connect
+from werkzeug.security import generate_password_hash, check_password_hash
 
 main = Blueprint('main', __name__, template_folder="templates")
 
@@ -36,12 +37,13 @@ def logIn():
     myresult = mycursor.fetchall()
     mycursor.close()
     mydb.close()
-
+    _session_id=generate_password_hash(_email+_password)
     data={"user_id":"-1",
         "session_id":"-1"}
     if myresult:
         data={"user_id":myresult[0][0],
-        "session_id":"0000"}
+        "session_id":_session_id}
+        session['userid'+str(myresult[0][0])]=_session_id #kreiramo session za korisnika dok je ulogovan, brisemo ga kada se izloguje, kreiramo ga i na strani korisnika
 
     return data
 

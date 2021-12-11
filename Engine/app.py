@@ -18,6 +18,12 @@ def create_app():
     #database.init_app(app)
     #commands.init_app(app)
     
+    app.config['TESTING'] = True
+    app.config['DEBUG'] = True
+    app.config['FLASK_ENV'] = 'development'
+    app.config['SECRET_KEY'] = 'GDtfDCFYjD'
+    #app.config['DEBUG'] = False  # actually I want debug to be off now
+
     # register blueprint
     app.register_blueprint(main,url_prefix="/api")
     #app.register_blueprint(product)
