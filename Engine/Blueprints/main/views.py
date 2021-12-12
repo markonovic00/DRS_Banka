@@ -4,6 +4,9 @@ from mysql.connector import connection
 from requests.api import request
 from .models.db import connect,check_session,get_user_by_id,check_user_login, insert_session_id
 from werkzeug.security import generate_password_hash, check_password_hash
+from types import SimpleNamespace
+from collections import namedtuple
+from ..classes.user import User
 
 main = Blueprint('main', __name__, template_folder="templates")
 
@@ -47,8 +50,25 @@ def logIn():
 
     return data
 
-    #https://auth0.com/blog/developing-restful-apis-with-python-and-flask/ 
-    #Api funkcionalnost
-    #https://stackoverflow.com/questions/20001229/how-to-get-posted-json-in-flask
-    # user id kako identifikovati od koga stize zahtev
+
+@main.route("/registerUser", methods=['POST'])
+def register():
+    content = {'none' : 'none'}
+    try:
+        content=flask.request.json
+    except ValueError as err:
+        print("Register content error {}".format(err))
+    
+    new_user = User(-1,content['first_name'],content['last_name'],content['address'],content['city'],content['country'],content['phone_number']
+        ,content['email'],content['password'])
+    
+    
+
+    return jsonify(content)
+
+
+#https://auth0.com/blog/developing-restful-apis-with-python-and-flask/ 
+#Api funkcionalnost
+#https://stackoverflow.com/questions/20001229/how-to-get-posted-json-in-flask
+# user id kako identifikovati od koga stize zahtev
     

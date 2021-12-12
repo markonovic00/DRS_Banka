@@ -75,8 +75,8 @@ def insert_session_id(_user_id,_session_id):
     try:
         mydb=connect()
         mycursor = mydb.cursor()
-        sql="INSERT INTO user_sessions (session_id , user_id) VALUES (%s , %s)"
-        parameters=(_session_id,_user_id)
+        sql="INSERT INTO user_sessions (session_id , user_id) VALUES (%s , %s) ON DUPLICATE KEY UPDATE session_id= %s"
+        parameters=(_session_id,_user_id,_session_id)
         mycursor.execute(sql,parameters)
         mydb.commit()
         if mycursor.rowcount>0:

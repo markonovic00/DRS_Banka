@@ -9,7 +9,55 @@
 </head>
 
 <body>
-  <!-- your content here... -->
-  <script></script>
+    <table style="width: 100%;">
+        <form class="form-signin" action="{{ url_for('main.registerCall') }}" method="POST">
+            <tr>
+                <td>
+                    <input type="text" name="firstName" id="firstName" placeholder="First name" required autofocus/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="lastName" id="lastName" placeholder="Last name" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="address" id="address" placeholder="Street, num" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="city" id="city" placeholder="City" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="country" id="country" placeholder="Country" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="phoneNum" id="phoneNum" placeholder="Number" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Register"/>
+                </td>
+            </tr>
+        </form>
+    </table>
 </body>
+
 </html>

@@ -2,6 +2,7 @@ from flask import Blueprint, json, render_template,request,session,jsonify,redir
 from flask.helpers import url_for
 import requests	
 from werkzeug.security import generate_password_hash, check_password_hash
+from ..classes.user import User
 
 
 main = Blueprint('main', __name__, template_folder="templates")
@@ -49,12 +50,31 @@ def logIn():
         session['session']= None # Ispisati da se polja popune
         return json.dumps({'html':'<span>Enter the required fields</span>'})
 
-@main.route('/register',methods=['POST'])
+
+@main.route('/register')
 def register():
+
+    return render_template("register.html")
+
+@main.route('/registerCall',methods=['POST'])
+def registerCall():
+    _first_name = request.form['firstName']
+    _last_name=request.form['lastName']
+    _address = request.form['address']
+    _city = request.form['city']
+    _country = request.form['country']
+    _phone_num = request.form['phoneNum']
     _email = request.form['inputEmail']
     _password = request.form['inputPassword']
-    if _email and _password:
+
+    if _email and _password and _first_name and _last_name and _address and _city and _country:
         hashed_password = generate_password_hash(_password)
-        return json.dumps({'html':'<span>All fields good !!</span>'})
+        new_user= User(-1,_first_name,_last_name,_address,_city,_country,_phone_num,_email,hashed_password)
+
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        body = json.dumps(new_user.__dict__)
+        res=requests.post("http://127.0.0.1:5000/api/registerUser", data=body,headers=headers)
+
+        return redirect(url_for('main.index'))
     else:
         return json.dumps({'html':'<span>Enter the required fields</span>'})
