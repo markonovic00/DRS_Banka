@@ -3,16 +3,63 @@
 <head>
     <title>Banka</title>
     <script type="text/javascript"
-         src="{{ url_for('static', filename='js/jQuery.js') }}"></script>
+         src="{{ url_for('static', filename='js/jQuery.js') }}">
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
 </head>
 <body>
-    <h1>Profile</h1>
-        
-    <ul>
-        {% for n in data %}
-        <li>
-            {{n}}
-        </li>
-        {% endfor %}
-    </ul>
+    <table style="width: 400px;">
+        <form class="form-signin" action="{{ url_for('main.registerCall') }}" method="POST">
+            <tr>
+                <td>
+                    <img style=" display: block; margin-left: auto; margin-right: auto; height: 50px; width: 50px; margin-bottom: 10px;" src="{{url_for('static', filename = 'images/shiba.png')}}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="ponzi">Ponzi Scheme Identity Change</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input  type="text" name="firstName" id="firstName" class="form-control-register" placeholder="First name" required autofocus/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="lastName" id="lastName" class="form-control-register" placeholder="Last name" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="address" id="address" class="form-control-register" placeholder="Street, num" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="city" id="city" class="form-control-register" placeholder="City" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="country" id="country" class="form-control-register" placeholder="Country" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="phoneNum" id="phoneNum" class="form-control-register" placeholder="Number" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="email" name="inputEmail" id="inputEmail" class="form-control-register" placeholder="Email address" required />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit"  class="button login-button" value="Update Profile"/>
+                </td>
+            </tr>
+        </form>
+    </table>
 </body>
