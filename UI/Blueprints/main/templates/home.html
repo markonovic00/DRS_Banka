@@ -4,36 +4,44 @@
     <title>Banka</title>
     <script type="text/javascript"
          src="{{ url_for('static', filename='js/jQuery.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
 </head>
 <body>
-    <h1>UI</h1>
 
+<table style="width: 400px;">
+    <tr>
+        <td>
+            <img style=" display: block; margin-left: auto; margin-right: auto; height: 50px; width: 50px; margin-bottom: 20px;" src="{{url_for('static', filename = 'images/shiba.png')}}"/>
+        </td>
+    </tr>
     <form class="form-signin" action="{{ url_for('main.logIn') }}" method="POST">
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
-         
-        <input type="submit" value="Uloguj se"/>
-        <button id="btnlogIn" class="btn btn-lg btn-primary btn-block" type="button">Log In</button>
-      </form>
-    <a href="{{url_for('main.profile')}}" >Idi na profil</a>
+        <tr>
+            <td>
+                <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
+            </td>
+        </tr>
+      <tr>
+          <td style="text-align: center;">
+            <input type="submit" class="button login-button" value="Log In"/>
+          </td>
+      </tr>>
+    </form>
+    <tr>
+        <td>
+            <hr />
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center;">
+            <form action="{{ url_for('main.register')}}">
+                <input type="submit" class="button register-button" value="Sign Up" />
+            </form>
+        </td>
+    </tr>
+</table>
 </body>
-<script>
-    $(function() {
-    $('#btnlogIn').click(function() {
- 
-        $.ajax({
-            url: '/logIn',
-            data: $('form').serialize(),
-            type: 'POST',
-            success: function(response) {
-                console.log(response);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-    });
-});
-</script>
