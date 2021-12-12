@@ -8,20 +8,16 @@
 <body>
     <h1>UI</h1>
 
-    <form class="form-signin" >
+    <form class="form-signin" action="{{ url_for('main.logIn') }}" method="POST">
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
          
+        <input type="submit" value="Uloguj se"/>
         <button id="btnlogIn" class="btn btn-lg btn-primary btn-block" type="button">Log In</button>
       </form>
-
-    <ul>
-        {% for n in users %}
-        <li>{{n}}</li>
-        {% endfor %}
-    </ul>
+    <a href="{{url_for('main.profile')}}" >Idi na profil</a>
 </body>
 <script>
     $(function() {

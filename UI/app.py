@@ -4,7 +4,7 @@ from flask import Flask
 
 # blueprint import
 from Blueprints.main.views import main
-#from blueprints.products.views import product
+from Blueprints.bank.views import bank
 #from blueprints.contact.views import contact
 #from blueprints.about.views import about
 
@@ -23,7 +23,7 @@ def create_app():
     
     # register blueprint
     app.register_blueprint(main)
-    #app.register_blueprint(product)
+    app.register_blueprint(bank)
     #app.register_blueprint(contact)
     #app.register_blueprint(about)
     

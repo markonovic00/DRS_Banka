@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Banka</title>
+    <script type="text/javascript"
+         src="{{ url_for('static', filename='js/jQuery.js') }}"></script>
+</head>
+<body>
+    <h1>Profile</h1>
+        
+    <ul>
+        {% for n in data %}
+        <li>
+            {{n}}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
