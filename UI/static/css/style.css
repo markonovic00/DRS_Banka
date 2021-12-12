@@ -76,3 +76,25 @@ form{
     border-color: rgb(191, 191, 191);
 }
 
+.form-control-register{
+    width: 400px;
+    height: 46px;
+    font-family: pp-sans-big-medium,Helvetica Neue,Arial,sans-serif;
+    font-weight: 400;
+    font-variant: normal;
+    font-size: 15px;
+    border-radius: 3px;
+    margin-bottom: 13px;
+    padding-left: 10px;
+    border-color: rgb(191, 191, 191);
+}
+
+.ponzi{
+    font-weight: 500;
+    font-family: pp-sans-big-medium,Helvetica Neue,Arial,sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+    margin-bottom: 10px;
+}
+
