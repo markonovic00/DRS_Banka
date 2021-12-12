@@ -1,0 +1,78 @@
+/*
+COLORS
+    rgb(243,5,5) red
+    rgb(251,161,12) orange
+    crna
+    i bela rgb(217, 217, 217)
+*/
+
+html, body{
+    height: 100%;
+    width: 100%;
+    margin: 0%;
+}
+
+body{
+    display:flex
+}
+
+table{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    border: 1px solid rgb(217, 217, 217);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+form{
+    margin:auto;
+
+}
+
+.button{
+    font-family: pp-sans-big-medium,Helvetica Neue,Arial,sans-serif;
+    font-weight: 400;
+    font-variant: normal;
+    font-size: 15px;
+    border-radius: 25px;
+    height: 48px;
+    width: 100%;
+}
+
+.login-button{
+    background-color: rgb(243,5,5);
+    color: white;
+    border: none;
+    font-weight: bold;
+}
+
+.login-button:hover{
+    background-color: rgb(204, 0, 0);
+}
+
+.register-button{
+    background-color: white;
+    color:rgb(243,5,5);
+    font-weight: bold;
+    border-color: rgb(255, 102, 102);
+}
+
+.register-button:hover{
+    border: 2px solid rgb(204, 0, 0);
+}
+
+.form-control{
+    width: 400px;
+    height: 56px;
+    font-family: pp-sans-big-medium,Helvetica Neue,Arial,sans-serif;
+    font-weight: 400;
+    font-variant: normal;
+    font-size: 15px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-color: rgb(191, 191, 191);
+}
+
