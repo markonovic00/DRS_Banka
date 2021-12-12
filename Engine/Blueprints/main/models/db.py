@@ -3,6 +3,7 @@ import sys
 from flask import jsonify
 from mysql.connector.errors import Error
 from werkzeug.exceptions import PreconditionFailed
+from ...classes.user import User
 
 def connect():
     connection=None
@@ -85,5 +86,23 @@ def insert_session_id(_user_id,_session_id):
         mydb.close()
     except Error as err:
         print("Something went wrong insert_session_id: {}".format(err))
+
+    return successfully
+
+def insert_user(_new_user):
+    successfully=False
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        sql="INSERT INTO users (first_name, last_name, address, city, country, phone_number, email, password) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+        parameters=(_new_user.first_name,_new_user.last_name,_new_user.address,_new_user.city,_new_user.country,_new_user.phone_number, _new_user.email,_new_user.password)
+        mycursor.execute(sql,parameters)
+        mydb.commit()
+        if mycursor.rowcount>0:
+            successfully=True
+        mycursor.close()
+        mydb.close()
+    except Error as err:
+        print("Something went wrong insert_user: {}".format(err))
 
     return successfully

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template,jsonify,session,json
 import flask
 from mysql.connector import connection
 from requests.api import request
-from .models.db import connect,check_session,get_user_by_id,check_user_login, insert_session_id
+from .models.db import connect,check_session,get_user_by_id,check_user_login, insert_session_id, insert_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from types import SimpleNamespace
 from collections import namedtuple
@@ -62,7 +62,10 @@ def register():
     new_user = User(-1,content['first_name'],content['last_name'],content['address'],content['city'],content['country'],content['phone_number']
         ,content['email'],content['password'])
     
-    
+    inserted = insert_user(new_user)
+    if inserted:
+        content={'registerd':'successfully'}
+    print(content)
 
     return jsonify(content)
 

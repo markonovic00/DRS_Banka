@@ -68,8 +68,7 @@ def registerCall():
     _password = request.form['inputPassword']
 
     if _email and _password and _first_name and _last_name and _address and _city and _country:
-        hashed_password = generate_password_hash(_password)
-        new_user= User(-1,_first_name,_last_name,_address,_city,_country,_phone_num,_email,hashed_password)
+        new_user= User(-1,_first_name,_last_name,_address,_city,_country,_phone_num,_email,_password)
 
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         body = json.dumps(new_user.__dict__)
