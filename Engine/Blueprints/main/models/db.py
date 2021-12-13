@@ -55,6 +55,23 @@ def check_user_login(_email,_password):
         print("Something went wrong check_user_login: {}".format(err))
     return user_id
 
+def check_if_exists(_email):
+    user_id=-1
+    try:
+        mydb=connect()
+        mycursor = mydb.cursor()
+        sql="SELECT * FROM users WHERE email = %s"
+        parameters=(_email,)
+        mycursor.execute(sql,parameters)
+        myresult = mycursor.fetchall()
+        mycursor.close()
+        mydb.close()
+        if myresult:
+            user_id=myresult[0][0]
+    except Error as err:
+        print("Something went wrong check_user_login: {}".format(err))
+    return user_id
+
 def get_user_by_id(_user_id):
     myresult=[-1] 
     try:
@@ -104,5 +121,23 @@ def insert_user(_new_user):
         mydb.close()
     except Error as err:
         print("Something went wrong insert_user: {}".format(err))
+
+    return successfully
+
+def delete_session(_session_id):
+    successfully=False 
+    try:       
+        sessiondb = connect()
+        sessioncursor = sessiondb.cursor()
+        sql="DELETE FROM user_sessions WHERE session_id=%s"
+        parameters=(_session_id,)
+        sessioncursor.execute(sql,parameters)
+        sessiondb.commit()
+        if sessioncursor.rowcount>0:
+            successfully=True
+        sessioncursor.close()
+        sessiondb.close()
+    except Error as err:
+        print("Something went wrong check_session: {}".format(err))
 
     return successfully

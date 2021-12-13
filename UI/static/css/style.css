@@ -6,17 +6,70 @@ COLORS
     i bela rgb(217, 217, 217)
 */
 
-html, body{
+html, body {
     height: 100%;
     width: 100%;
     margin: 0%;
 }
 
-body{
+body {
     display:flex
 }
 
-table{
+/*Topnav je horizontalni gornji a hornav je vertikalni samo sam ga pogresno nazvao pa me mrzelo menjati*/
+.topnav-ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 48px;
+    background-color: whitesmoke;
+}
+
+.topnav-li {
+    float: right;
+}
+
+.topnav-a {
+    display: block;
+    padding: 8px;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav-a:hover {
+    background-color: red;
+    color: orange;
+}
+
+.hornav-ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: whitesmoke;
+}
+
+.hornav-li{
+    float:left;
+
+}
+
+.hornav-li-text {
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.hornav-li-text.active {
+    background-color: orange;
+}
+
+
+table {
     margin-left: auto;
     margin-right: auto;
     margin-top: auto;
@@ -26,12 +79,12 @@ table{
     border-radius: 15px;
 }
 
-form{
+form {
     margin:auto;
 
 }
 
-.button{
+.button {
     font-family: pp-sans-big-medium,Helvetica Neue,Arial,sans-serif;
     font-weight: 400;
     font-variant: normal;
@@ -41,29 +94,29 @@ form{
     width: 100%;
 }
 
-.login-button{
+.login-button {
     background-color: rgb(243,5,5);
     color: white;
     border: none;
     font-weight: bold;
 }
 
-.login-button:hover{
+.login-button:hover {
     background-color: rgb(204, 0, 0);
 }
 
-.register-button{
+.register-button {
     background-color: white;
     color:rgb(243,5,5);
     font-weight: bold;
     border-color: rgb(255, 102, 102);
 }
 
-.register-button:hover{
+.register-button:hover {
     border: 2px solid rgb(204, 0, 0);
 }
 
-.form-control{
+.form-control {
     width: 400px;
     height: 56px;
     font-family: pp-sans-big-medium,Helvetica Neue,Arial,sans-serif;
@@ -76,7 +129,7 @@ form{
     border-color: rgb(191, 191, 191);
 }
 
-.form-control-register{
+.form-control-register {
     width: 400px;
     height: 46px;
     font-family: pp-sans-big-medium,Helvetica Neue,Arial,sans-serif;
@@ -89,7 +142,7 @@ form{
     border-color: rgb(191, 191, 191);
 }
 
-.ponzi{
+.ponzi {
     font-weight: 500;
     font-family: pp-sans-big-medium,Helvetica Neue,Arial,sans-serif;
     margin-left: auto;
@@ -98,3 +151,56 @@ form{
     margin-bottom: 10px;
 }
 
+.tb-acc-balance {
+    margin-bottom: 300px;
+    margin-right: 300px;
+}
+
+.tb-verified {
+    margin-bottom: 300px;
+}
+
+.tb-currencies{
+    margin-right: 300px;
+}
+
+
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }

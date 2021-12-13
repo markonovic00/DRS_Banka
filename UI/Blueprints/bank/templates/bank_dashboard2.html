@@ -1,0 +1,79 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript"
+         src="{{ url_for('static', filename='js/jQuery.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  <meta name="author" content="SitePoint">
+</head>
+
+<body>
+    <!--Mozemo primeniti onaj princip da ne koristimo submit forme nego samo function call
+    i onda iskoci modal koji pokaze message ili pak nacrta span na html js-->
+        
+    <h1>Bank Dashboard</h1>
+    <form>
+      <input type="text" name="cardNum" id="cardNum" class="form-control" placeholder="Card Number (xxxx xxxx xxxx xxxx)" required autofocus>
+      <input type="text" name="userName" id="userName" class="form-control" placeholder="Full Name" required >
+      <input type="number" name="pinCode" id="pinCode" class="form-control" placeholder="Pin Code" required >
+      <input type="text" name="expDate" id="expDate" class="form-control" placeholder="Expritaion Date (06/25)" required >
+      <button id="btnInsertCard" class="btn btn-lg btn-primary btn-block" type="button">Verify</button>
+    </form>
+
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modalTxt"></p>
+      </div>
+
+    </div>
+
+  <script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    let ele = document.getElementById('modalTxt');
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    $(function() {
+      
+    $('#btnInsertCard').click(function() {
+ 
+        $.ajax({
+            url: '/verifyOACC',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                modal.style.display = "block";
+                ele.innerHTML=response;
+                console.log(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
+  </script>
+</body>
+
+</html>

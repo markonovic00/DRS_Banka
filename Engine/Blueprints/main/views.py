@@ -1,11 +1,7 @@
 from flask import Blueprint, render_template,jsonify,session,json
 import flask
-from mysql.connector import connection
-from requests.api import request
-from .models.db import connect,check_session,get_user_by_id,check_user_login, insert_session_id, insert_user
+from .models.db import connect,check_session,get_user_by_id,check_user_login, insert_session_id, insert_user,check_if_exists,delete_session
 from werkzeug.security import generate_password_hash, check_password_hash
-from types import SimpleNamespace
-from collections import namedtuple
 from ..classes.user import User
 
 main = Blueprint('main', __name__, template_folder="templates")
@@ -62,13 +58,28 @@ def register():
     new_user = User(-1,content['first_name'],content['last_name'],content['address'],content['city'],content['country'],content['phone_number']
         ,content['email'],content['password'])
     
-    inserted = insert_user(new_user)
-    if inserted:
-        content={'registerd':'successfully'}
-    print(content)
+    exists=check_if_exists(content['email'])
+    inserted=-1
+    if exists==-1:
+        inserted = insert_user(new_user)
+    else:
+        content={'registered':'unsuccessfully, user with this email exists'}
+    if inserted!=-1:
+        content={'registered':'successfully'}
 
     return jsonify(content)
 
+
+@main.route('/logOut',methods=['POST'])
+def logOut():
+    content ={'none':'none'}
+    content=flask.request.json
+    _session_id=content['session_id']
+    succ = delete_session(_session_id)
+    if succ:
+        content={'none':'logedOut'}
+        
+    return jsonify(content)
 
 #https://auth0.com/blog/developing-restful-apis-with-python-and-flask/ 
 #Api funkcionalnost

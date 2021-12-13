@@ -2,10 +2,12 @@ import os
 from flask import Flask
 import sys
 
+from flask.helpers import url_for
+
 
 # blueprint import
 from Blueprints.main.views import main
-#from blueprints.products.views import product
+from Blueprints.online_acc.views import online_acc
 #from blueprints.contact.views import contact
 #from blueprints.about.views import about
 
@@ -26,7 +28,7 @@ def create_app():
 
     # register blueprint
     app.register_blueprint(main,url_prefix="/api")
-    #app.register_blueprint(product)
+    app.register_blueprint(online_acc,url_prefix="/api")
     #app.register_blueprint(contact)
     #app.register_blueprint(about)
     

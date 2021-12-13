@@ -66,6 +66,13 @@
                     <input type="submit"  class="button login-button" value="Register"/>
                 </td>
             </tr>
+            {% if span|length %}
+            <tr>
+                <td>
+                    <span class="ponzi" style="color: red;">{{span}}</span>
+                </td>
+            </tr>
+            {% endif %}
         </form>
     </table>
 </body>

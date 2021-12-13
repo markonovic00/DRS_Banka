@@ -54,7 +54,7 @@ def logIn():
 @main.route('/register')
 def register():
 
-    return render_template("register.html")
+    return render_template("register.html",span="")
 
 @main.route('/registerCall',methods=['POST'])
 def registerCall():
@@ -73,7 +73,27 @@ def registerCall():
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         body = json.dumps(new_user.__dict__)
         res=requests.post("http://127.0.0.1:5000/api/registerUser", data=body,headers=headers)
-
-        return redirect(url_for('main.index'))
+        print(json.loads(res.text))
+        _json_res=res.json() # Pretvorimo podatke u json
+        _successfully = _json_res['registered']
+        if _successfully=="successfully":
+            return redirect(url_for('main.index'))
+        else:
+            return render_template("register.html", span=_successfully)
     else:
         return json.dumps({'html':'<span>Enter the required fields</span>'})
+
+@main.route('/logOut',methods=['POST'])
+def logOut():
+    _session_id=session.get('session')
+    if _session_id and session.get('session')!='-1' and session.get('session')!=None: #provera da li uopse nesto postoji u session id
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        body = json.dumps({"session_id":_session_id})
+        response=requests.post("http://127.0.0.1:5000/api/logOut",data=body,headers=headers)
+        _json_res=response.json() # Pretvorimo podatke u json
+        _successfully = _json_res['none']
+        if _successfully=="logedOut":
+            session['session']=None
+            return redirect(url_for('main.index'))
+
+    return redirect(url_for('main.index'))
