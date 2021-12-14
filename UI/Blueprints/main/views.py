@@ -21,7 +21,6 @@ def profile():
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         body = json.dumps({"session_id":_session_id})
         response=requests.post("http://127.0.0.1:5000/api/getProfileInfo",data=body,headers=headers)
-        print(response.text)
         if response.text:
             user_data=json.loads(response.text)
     return render_template("profile.html",data=user_data) #prihvatat cemo session id u post methodi da ne dodje do prikazivanja i zloupotrebe
@@ -83,7 +82,7 @@ def registerCall():
     else:
         return json.dumps({'html':'<span>Enter the required fields</span>'})
 
-@main.route('/logOut',methods=['POST'])
+@main.route('/logOut')
 def logOut():
     _session_id=session.get('session')
     if _session_id and session.get('session')!='-1' and session.get('session')!=None: #provera da li uopse nesto postoji u session id
@@ -97,3 +96,30 @@ def logOut():
             return redirect(url_for('main.index'))
 
     return redirect(url_for('main.index'))
+
+
+@main.route('/updateUser',methods=['POST'])
+def updateUser():
+    _first_name = request.form['firstName']
+    _last_name=request.form['lastName']
+    _address = request.form['address']
+    _city = request.form['city']
+    _country = request.form['country']
+    _phone_num = request.form['phoneNum']
+    _email = request.form['inputEmail']
+
+    if _email and _first_name and _last_name and _address and _city and _country:
+        new_user= User(-1,_first_name,_last_name,_address,_city,_country,_phone_num,_email,"")
+
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        body = json.dumps(new_user.__dict__)
+        res=requests.post("http://127.0.0.1:5000/api/updateUser", data=body,headers=headers)
+        print(json.loads(res.text))
+        _json_res=res.json() # Pretvorimo podatke u json
+        _successfully = _json_res['updated']
+        if _successfully=="successfully":
+            return redirect(url_for('bank.dashboard'))
+        else:
+            return render_template("profile.html", span=_successfully)
+    else:
+        return json.dumps({'html':'<span>Enter the required fields</span>'})

@@ -141,3 +141,22 @@ def delete_session(_session_id):
         print("Something went wrong check_session: {}".format(err))
 
     return successfully
+
+def update_user(_user):
+    successfully=False
+    try:
+        _new_user=_user
+        mydb = connect()
+        mycursor = mydb.cursor()
+        sql="UPDATE users SET first_name=%s, last_name=%s, address=%s, city=%s, country=%s, phone_number=%s, email=%s WHERE email=%s"
+        parameters=(_new_user.first_name,_new_user.last_name,_new_user.address,_new_user.city,_new_user.country,_new_user.phone_number, _new_user.email,_new_user.email)
+        mycursor.execute(sql,parameters)
+        mydb.commit()
+        if mycursor.rowcount>0:
+            successfully=True
+        mycursor.close()
+        mydb.close()
+    except Error as err:
+        print("Something went wrong update_user: {}".format(err))
+
+    return successfully

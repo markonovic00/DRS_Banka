@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template,jsonify,session,json
 import flask
-from .models.db import connect,check_session,get_user_by_id,check_user_login, insert_session_id, insert_user,check_if_exists,delete_session
+from .models.db import connect,check_session,get_user_by_id,check_user_login, insert_session_id, insert_user,check_if_exists,delete_session, update_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..classes.user import User
 
@@ -78,7 +78,26 @@ def logOut():
     succ = delete_session(_session_id)
     if succ:
         content={'none':'logedOut'}
-        
+
+    return jsonify(content)
+
+@main.route('/updateUser',methods=['POST'])
+def updateUser():
+    content = {'none' : 'none'}
+    try:
+        content=flask.request.json
+    except ValueError as err:
+        print("Register content error {}".format(err))
+    
+    new_user = User(-1,content['first_name'],content['last_name'],content['address'],content['city'],content['country'],content['phone_number']
+        ,content['email'],content['password'])
+    
+    inserted=update_user(new_user)
+    if inserted:
+        content={'updated':'successfully'}
+    else:
+        content={'updated':'unsuccessfully'}
+
     return jsonify(content)
 
 #https://auth0.com/blog/developing-restful-apis-with-python-and-flask/ 

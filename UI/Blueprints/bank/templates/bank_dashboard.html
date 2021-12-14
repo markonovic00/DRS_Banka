@@ -11,17 +11,84 @@
 <body>
   <ul style="width: 300px; line-height: 180%;" class="hornav-ul" >
     <li style="background-color: orange; height: 47px; width: 100%; float: left;" class="hornav-li"><img style="display: block; height: 50px; width: 50px; margin-bottom: 10px; margin-left: auto; margin-right: auto;" src="{{url_for('static', filename = 'images/shiba2.png')}}"/></li>
-    <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a">Dashboard</a></li>
+    <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a"  href="{{ url_for('bank.dashboard') }}">Dashboard</a></li>
     <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a">Transactions</a></li>
-    <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a">Credit card</a></li>
+    <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a"  href="{{ url_for('bank.card') }}">Credit card</a></li>
     <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a">Transfer money</a></li>
     <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a">Exchange currency</a></li>
   </ul>
 
   <ul class="topnav-ul">
-    <li class="topnav-li"><a class="topnav-a" href="{{ url_for('main.index') }}">Log out</a></li>
+    <li class="topnav-li"><a class="topnav-a" href="{{ url_for('main.logOut') }}">Log out</a></li>
     <li class="topnav-li"><a class="topnav-a" href="{{ url_for('main.profile') }}">Profile</a></li>
   </ul>
+  <div style="position: absolute; top:70px; left: 300px;">
+    <table>
+      <tr>
+          <td>
+              <table class="tb-acc-balance"> 
+                  <tr>
+                      <td>
+                          Account balace:
+                      </td>
+                  </tr>
+              </table>
+          </td>
+          <td>
+              <table class="tb-verified">
+                  <tr>
+                      <td>
+                          Verified:
+                      </td>
+                  </tr>
+              </table>
+          </td>
+      </tr>
+      <tr>
+          <td>
+              <table class="tb-currencies">
+                  <tr>
+                      <td>
+                          Currencies:
+                      </td>
+                  </tr>
+              </table>
+          </td>
+          <td>
+              <table class="tb-acc-info">
+                  <tr>
+                      <td>
+                          Account Info:
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          Card number:
+                      </td>
+                  </tr>
+                  
+                  <tr>
+                      <td>
+                          Full Name:
+                      </td>
+                  </tr>
+                  
+                  <tr>
+                      <td>
+                          Valid Thru:
+                      </td>
+                  </tr>
+                  
+                  <tr>
+                      <td>
+                          PIN Code:
+                      </td>
+                  </tr>
+              </table>
+          </td>
+      </tr>
+  </table>
+  </div>
 
 </body>
 

@@ -11,6 +11,11 @@ def dashboard():
 
     return render_template("bank_dashboard.html")
 
+@bank.route('/card')
+def card():
+
+    return render_template("card.html")
+
 @bank.route('/verifyOACC', methods=['POST'])
 def addCard():
     _card_number = request.form['cardNum']
