@@ -26,15 +26,37 @@
     </ul>
     <div style="position: absolute; top: 50px; left: 270px;">
         <form>
-            <input type="text" name="trTo" id="trTo" class="form-control" placeholder="Card Number or email" required autofocus>
-            <input type="number" name="amount" id="amount" class="form-control" placeholder="Amount" required >
-            <select name="currency" id="currency" class="form-control" style="width: 415px;">
-                <option selected>EU</option>
-                <option>$</option>
-                <option>RSD</option>
-            </select>
-
-            <button id="btnTransfer" class="btn btn-lg btn-primary btn-block" type="button">Transfer</button>
+          <table>
+            <tr>
+                <td>
+                    Transfer money
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  <input type="text" name="trTo" id="trTo" class="form-control" placeholder="Card Number or email" required autofocus>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  <input type="number" name="amount" id="amount" class="form-control" placeholder="Amount" required >
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  <select name="currency" id="currency" class="form-control" style="width: 415px;">
+                    <option selected>EU</option>
+                    <option>$</option>
+                    <option>RSD</option>
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  <button id="btnTransfer" class="login-button button" type="button">Transfer</button>
+                </td>
+            </tr>
+        </table>
         </form>
     </div> 
 
