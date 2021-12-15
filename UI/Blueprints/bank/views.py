@@ -9,12 +9,36 @@ bank = Blueprint('bank', __name__, template_folder="templates")
 @bank.route('/bank')
 def dashboard():
 
-    return render_template("bank_dashboard.html")
+    _balance={'':''}
+    _card={'':''}
+    _verified={'':''}
+    _session_id=session.get('session')
+    if _session_id and session.get('session')!='-1' and session.get('session')!=None:
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
+        body=json.dumps({"session_id":_session_id})                 # Zahtev za api
+        res=requests.post("http://127.0.0.1:5000/api/dashboardData", data=body,headers=headers) #-----
+        _json_res = res.json()  
+        if _json_res:
+            _balance=_json_res['balance']
+            _card = _json_res['card']
+            _verified=_json_res['verified']
+
+    return render_template("bank_dashboard.html",balance=_balance,card=_card,verified=_verified)
 
 @bank.route('/card')
 def card():
 
     return render_template("card.html")
+
+@bank.route('/transactions')
+def transactions():
+
+    return render_template("transactions.html")
+
+@bank.route('/transfer')
+def transfer():
+
+    return render_template("transfer_money.html")
 
 @bank.route('/verifyOACC', methods=['POST'])
 def addCard():
@@ -34,4 +58,20 @@ def addCard():
             verified=_json_res['card']
             
 
+    return json.dumps({'html':'<span>'+verified+'</span>'})
+
+@bank.route('/addFunds',methods=['POST'])
+def addFunds():
+    _currency = request.form['currency']
+    _amount = request.form['amount']
+    _session_id=session.get('session')
+    verified='not verified'
+    if _session_id and session.get('session')!='-1' and session.get('session')!=None:
+         if _currency and _amount:
+            headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
+            body=json.dumps({"currency":_currency,"amount":_amount,"session_id":_session_id})                 # Zahtev za api
+            res=requests.post("http://127.0.0.1:5000/api/addFunds", data=body,headers=headers) #-----
+            _json_res=res.json()
+            verified=_json_res['card']
+    
     return json.dumps({'html':'<span>'+verified+'</span>'})

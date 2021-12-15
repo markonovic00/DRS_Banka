@@ -41,8 +41,9 @@ body {
 }
 
 .topnav-a:hover {
-    background-color: red;
     color: orange;
+    border-bottom: 3px solid red;
+    padding-bottom: 3px;
 }
 
 .hornav-ul {
@@ -64,10 +65,22 @@ body {
     margin-left: 10px;
 }
 
-.hornav-li-text.active {
-    background-color: orange;
+.hornav-a {
+    text-decoration: none;
+    color: black;
 }
 
+.hornav-a:hover{
+    color: orange;
+    border-bottom: 3px solid red;
+    padding-bottom: 3px;
+}
+
+.active a{
+    color: orange;
+    border-bottom: 3px solid red;
+    padding-bottom: 3px;
+}
 
 table {
     margin-left: auto;
@@ -77,6 +90,10 @@ table {
     border: 1px solid rgb(217, 217, 217);
     padding: 20px;
     border-radius: 15px;
+}
+
+table th, table td{
+    /*width: 25%;*/
 }
 
 form {
@@ -152,18 +169,13 @@ form {
 }
 
 .tb-acc-balance {
-    margin-bottom: 300px;
-    margin-right: 300px;
+    height: auto;
+    width: 100%;
 }
 
 .tb-verified {
-    margin-bottom: 300px;
+    width: 100%;
 }
-
-.tb-currencies{
-    margin-right: 300px;
-}
-
 
 
 

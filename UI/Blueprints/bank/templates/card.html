@@ -15,45 +15,86 @@
     <ul style="width: 300px; line-height: 180%;" class="hornav-ul" >
         <li style="background-color: orange; height: 47px; width: 100%; float: left;" class="hornav-li"><img style="display: block; height: 50px; width: 50px; margin-bottom: 10px; margin-left: auto; margin-right: auto;" src="{{url_for('static', filename = 'images/shiba2.png')}}"/></li>
         <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a" href="{{ url_for('bank.dashboard') }}">Dashboard</a></li>
-        <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a">Transactions</a></li>
-        <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a" href="{{ url_for('bank.card') }}">Credit card</a></li>
-        <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a">Transfer money</a></li>
+        <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a" href="{{ url_for('bank.transactions') }}">Transactions</a></li>
+        <li style="width: 100%;" class="hornav-li-text active"><a class="hornav-a" href="{{ url_for('bank.card') }}">Credit card</a></li>
+        <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a" href="{{ url_for('bank.transfer') }}">Transfer money</a></li>
         <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a">Exchange currency</a></li>
       </ul>
       <ul class="topnav-ul">
         <li class="topnav-li"><a class="topnav-a" href="{{ url_for('main.logOut') }}">Log out</a></li>
         <li class="topnav-li"><a class="topnav-a" href="{{ url_for('main.profile') }}">Profile</a></li>
       </ul>
-      <div style="position: absolute; top: 50px; left: 300px;">
-    <form>
-        <table>
+      <div style="position: absolute; top: 50px; left: 270px;">
+        <table style="border: none; padding: 0; margin: 0; width: fit-content;">
             <tr>
                 <td>
-                    <input type="text" name="cardNum" id="cardNum" class="form-control" placeholder="Card Number (xxxx xxxx xxxx xxxx)" required autofocus>
+                    <form>
+                        <table>
+                            <tr>
+                                <td>
+                                    Verify card
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name="cardNum" id="cardNum" class="form-control" placeholder="Card Number (xxxx xxxx xxxx xxxx)" required autofocus>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name="userName" id="userName" class="form-control" placeholder="Full Name" required >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="number" name="pinCode" id="pinCode" class="form-control" placeholder="Pin Code" required >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name="expDate" id="expDate" class="form-control" placeholder="Expiration Date (06/25)" required >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button id="btnInsertCard" class="login-button button" type="button">Verify</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
                 </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" name="userName" id="userName" class="form-control" placeholder="Full Name" required >
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="number" name="pinCode" id="pinCode" class="form-control" placeholder="Pin Code" required >
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" name="expDate" id="expDate" class="form-control" placeholder="Expiration Date (06/25)" required >
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button id="btnInsertCard" class="btn btn-lg btn-primary btn-block" type="button">Verify</button>
+                <td style="vertical-align: top; padding-left: 15px;">
+                    <form>
+                        <table>
+                            <tr>
+                                <td>
+                                    Add funds
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="number" name="amount" id="amount" class="form-control" placeholder="Amount" required >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <select name="currency" id="currency" class="form-control" style="width: 415px;">
+                                        <option selected>EU</option>
+                                        <option>$</option>
+                                        <option>RSD</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button id="btnAddFunds" class="login-button button" type="button">Add funds</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
                 </td>
             </tr>
         </table>
-    </form>
 </div>
 
 
@@ -106,6 +147,25 @@
             });
         });
     });
+    $(function() {
+          
+          $('#btnAddFunds').click(function() {
+       
+              $.ajax({
+                  url: '/addFunds',
+                  data: $('form').serialize(),
+                  type: 'POST',
+                  success: function(response) {
+                      modal.style.display = "block";
+                      ele.innerHTML=response;
+                      console.log(response);
+                  },
+                  error: function(error) {
+                      console.log(error);
+                  }
+              });
+          });
+      });
       </script>
     
 </body>
