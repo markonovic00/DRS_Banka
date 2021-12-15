@@ -32,13 +32,36 @@ def card():
 
 @bank.route('/transactions')
 def transactions():
-
-    return render_template("transactions.html")
+    _session_id=session.get('session')
+    _data=[0]
+    if _session_id and session.get('session')!='-1' and session.get('session')!=None:
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
+        body=json.dumps({"session_id":_session_id})                 # Zahtev za api
+        res=requests.post("http://127.0.0.1:5000/api/getAllTransactions", data=body,headers=headers) #-----
+        _data=json.loads(res.text)
+    return render_template("transactions.html", data=_data)
 
 @bank.route('/transfer')
 def transfer():
 
     return render_template("transfer_money.html")
+
+@bank.route('/transferInitiate', methods=['POST'])
+def transferInitiate():
+    content_ret={'non':'non'}
+    _currency = request.form['currency']
+    _amount = request.form['amount']
+    _transfer_to = request.form['trTo']
+    _session_id=session.get('session')
+    if _session_id and session.get('session')!='-1' and session.get('session')!=None:
+         if _currency and _amount:
+            headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
+            body=json.dumps({"transfer":_transfer_to,"currency":_currency,"amount":_amount,"session_id":_session_id})                 # Zahtev za api
+            res=requests.post("http://127.0.0.1:5000/api/transfer", data=body,headers=headers) #-----
+            _json_res=res.json()
+            content_ret=_json_res['status']
+
+    return content_ret
 
 @bank.route('/verifyOACC', methods=['POST'])
 def addCard():
