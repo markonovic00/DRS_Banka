@@ -51,6 +51,22 @@ def get_online_acc_id(_user_id):
 
     return myresult
 
+def get_acc_by_email(_email):
+    myresult=[] 
+    try:
+        mydb=connect()
+        mycursor = mydb.cursor()
+        sql="SELECT ID FROM users WHERE email=%s"
+        parameters=(_email,)
+        mycursor.execute(sql,parameters)
+        myresult = mycursor.fetchall()
+        mycursor.close()
+        mydb.close()
+    except Error as err:
+        print("Something went wrong get_acc_by_email: {}".format(err))
+
+    return myresult
+
 def get_funds_by_currency(_online_acc_id, _currency):
     myresult=[-1] 
     try:
@@ -66,6 +82,24 @@ def get_funds_by_currency(_online_acc_id, _currency):
         print("Something went wrong get_funds_by_currency: {}".format(err))
 
     return myresult
+
+def insert_funds(_online_balance):
+    successfully=False
+    try:
+        mydb = connect()
+        mycursor = mydb.cursor()
+        sql="INSERT INTO online_account_balance (online_account_id,account_balance,currency) VALUES (%s,%s,%s)"
+        parametes=(_online_balance.online_ACC_id,_online_balance.account_balance,_online_balance.currency)
+        mycursor.execute(sql,parametes)
+        mydb.commit()
+        if mycursor.rowcount>0:
+            successfully=True
+        mycursor.close()
+        mydb.close()
+    except Error as err:
+        print("Something went wrong insert_card: {}".format(err))
+
+    return successfully
 
 def update_funds(_online_balance):
     successfully=False

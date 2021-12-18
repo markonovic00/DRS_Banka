@@ -95,7 +95,7 @@
     $('#btnTransfer').click(function() {
  
         $.ajax({
-            url: '/transferMoney',
+            url: '/transferInitiate',
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {

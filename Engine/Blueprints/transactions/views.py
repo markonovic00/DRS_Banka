@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template,jsonify,session,json
 import flask
-from .models.db import connect,check_session,update_funds,get_online_acc_id,get_funds_by_currency,insert_transaction,get_all_transactions
+from .models.db import connect,check_session,update_funds,get_online_acc_id,get_funds_by_currency,insert_transaction,get_all_transactions,get_acc_by_email,insert_funds
 from ..classes.user import User
 from ..classes.credit_card import Credit_Card,Online_ACC,Online_ACC_Balance
 
@@ -37,8 +37,25 @@ def transfer():
             content_ret={'status':'accepted, waiting 2min'}
 
         if '@' in _transfer_to:
-            print("sending to email implementirati")
+            send_to_id= get_acc_by_email(_transfer_to.strip())
+            rec_online_acc =get_online_acc_id(send_to_id[0][0])
+            rec_online_acc_id=rec_online_acc[0][0]
+            rec_online_acc_balane=get_funds_by_currency(rec_online_acc_id,_currency) # nalazi se accaount sa zeljenom
+        if len(rec_online_acc_balane)==0:
+            #insert fund
+            new_balance=Online_ACC_Balance(rec_online_acc_id,_ammount,_currency)
+            succ=insert_funds(new_balance)
+        else:
+            #update fund
+            new_balance=Online_ACC_Balance(rec_online_acc_balane[0][0],rec_online_acc_balane[0][1],rec_online_acc_balane[0][2])
+            balance_am=int(new_balance.account_balance)+int(_ammount)
+            new_balance.account_balance=str(balance_am)
+            succ= update_funds(new_balance)
         
+        if succ:
+            insert_transaction(user_id,_transfer_to,_ammount,_currency)
+            content_ret={'status':'accepted, waiting 2min'}
+
     return content_ret
 
 @transactions.route('/getAllTransactions',methods=['POST'])
