@@ -9,7 +9,7 @@ from flask.helpers import url_for
 from Blueprints.main.views import main
 from Blueprints.online_acc.views import online_acc
 from Blueprints.transactions.views import transactions
-#from blueprints.about.views import about
+from Blueprints.exchange.views import exchange
 
 def create_app():
     app = Flask(__name__)
@@ -30,7 +30,7 @@ def create_app():
     app.register_blueprint(main,url_prefix="/api")
     app.register_blueprint(online_acc,url_prefix="/api")
     app.register_blueprint(transactions, url_prefix="/api")
-    #app.register_blueprint(about)
+    app.register_blueprint(exchange,url_prefix="/api")
     
 
     return app

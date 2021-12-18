@@ -16,8 +16,8 @@
         <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a"  href="{{ url_for('bank.dashboard') }}">Dashboard</a></li>
         <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a" href="{{ url_for('bank.transactions') }}">Transactions</a></li>
         <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a" href="{{ url_for('bank.card') }}">Credit card</a></li>
-        <li style="width: 100%;" class="hornav-li-text active"><a class="hornav-a">Transfer money</a></li>
-        <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a" href="{{ url_for('bank.exchange') }}">Exchange currency</a></li>
+        <li style="width: 100%;" class="hornav-li-text"><a class="hornav-a" href="{{ url_for('bank.transfer') }}">Transfer money</a></li>
+        <li style="width: 100%;" class="hornav-li-text active"><a class="hornav-a">Exchange currency</a></li>
     </ul>
     
     <ul class="topnav-ul">
@@ -29,12 +29,7 @@
           <table>
             <tr>
                 <td>
-                    Transfer money
-                </td>
-            </tr>
-            <tr>
-                <td>
-                  <input type="text" name="trTo" id="trTo" class="form-control" placeholder="Card Number or email" required autofocus>
+                    Exchange money
                 </td>
             </tr>
             <tr>
@@ -44,8 +39,9 @@
             </tr>
             <tr>
                 <td>
-                  <select name="currency" id="currency" class="form-control" style="width: 415px;">
-                    <option selected>EU</option>
+                  <select name="currencyFrom" id="currencyFrom" class="form-control" style="width: 415px;">
+                    <option selected>From currency</option>
+                    <option>EU</option>
                     <option>$</option>
                     <option>RSD</option>
                 </select>
@@ -53,7 +49,17 @@
             </tr>
             <tr>
                 <td>
-                  <button id="btnTransfer" class="login-button button" type="button">Transfer</button>
+                  <select name="currencyTo" id="currencyTo" class="form-control" style="width: 415px;">
+                    <option selected>To currency</option>
+                    <option>EU</option>
+                    <option>$</option>
+                    <option>RSD</option>
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  <button id="btnExchange" class="login-button button" type="button">Exchange</button>
                 </td>
             </tr>
         </table>
@@ -92,10 +98,10 @@
     }
     $(function() {
       
-    $('#btnTransfer').click(function() {
+    $('#btnExchange').click(function() {
  
         $.ajax({
-            url: '/transferInitiate',
+            url: '/exchangeInitiate',
             data: $('form').serialize(),
             type: 'POST',
             success: function(response) {

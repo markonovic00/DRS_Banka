@@ -46,6 +46,11 @@ def transfer():
 
     return render_template("transfer_money.html")
 
+@bank.route('/exhange')
+def exchange():
+
+    return render_template("exchange.html")
+
 @bank.route('/transferInitiate', methods=['POST'])
 def transferInitiate():
     content_ret={'non':'non'}
@@ -62,6 +67,24 @@ def transferInitiate():
             content_ret=_json_res['status']
 
     return content_ret
+
+@bank.route('/exchangeInitiate',methods=['POST'])
+def exhangeInitiate():
+    content_ret={'non':'non'}
+    _currency_from = request.form['currencyFrom']
+    _amount = request.form['amount']
+    _currency_to = request.form['currencyTo']
+    _session_id=session.get('session')
+    if _session_id and session.get('session')!='-1' and session.get('session')!=None:
+         if _currency_from and _amount and _currency_to:
+            headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
+            body=json.dumps({"currencyfrom":_currency_from,"currencyto":_currency_to,"amount":_amount,"session_id":_session_id})                 # Zahtev za api
+            res=requests.post("http://127.0.0.1:5000/api/exchange", data=body,headers=headers) #-----
+            _json_res=res.json()
+            content_ret=_json_res['status']
+
+    return content_ret
+
 
 @bank.route('/verifyOACC', methods=['POST'])
 def addCard():
