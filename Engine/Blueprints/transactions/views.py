@@ -41,16 +41,16 @@ def transfer():
             rec_online_acc =get_online_acc_id(send_to_id[0][0])
             rec_online_acc_id=rec_online_acc[0][0]
             rec_online_acc_balane=get_funds_by_currency(rec_online_acc_id,_currency) # nalazi se accaount sa zeljenom
-        if len(rec_online_acc_balane)==0:
-            #insert fund
-            new_balance=Online_ACC_Balance(rec_online_acc_id,_ammount,_currency)
-            succ=insert_funds(new_balance)
-        else:
-            #update fund
-            new_balance=Online_ACC_Balance(rec_online_acc_balane[0][0],rec_online_acc_balane[0][1],rec_online_acc_balane[0][2])
-            balance_am=int(new_balance.account_balance)+int(_ammount)
-            new_balance.account_balance=str(balance_am)
-            succ= update_funds(new_balance)
+            if len(rec_online_acc_balane)==0:
+                #insert fund
+                new_balance=Online_ACC_Balance(rec_online_acc_id,_ammount,_currency)
+                succ=insert_funds(new_balance)
+            else:
+                #update fund
+                new_balance=Online_ACC_Balance(rec_online_acc_balane[0][0],rec_online_acc_balane[0][1],rec_online_acc_balane[0][2])
+                balance_am=int(new_balance.account_balance)+int(_ammount)
+                new_balance.account_balance=str(balance_am)
+                succ= update_funds(new_balance)
         
         if succ:
             insert_transaction(user_id,_transfer_to,_ammount,_currency)
