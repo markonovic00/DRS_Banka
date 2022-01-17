@@ -83,6 +83,22 @@ def get_funds_by_currency(_online_acc_id, _currency):
 
     return myresult
 
+def get_currencies(_online_acc_id):
+    myresult=[-1] 
+    try:
+        mydb=connect()
+        mycursor = mydb.cursor()
+        sql="SELECT currency FROM online_account_balance WHERE online_account_id=%s "
+        parameters=(_online_acc_id,)
+        mycursor.execute(sql,parameters)
+        myresult = mycursor.fetchall()
+        mycursor.close()
+        mydb.close()
+    except Error as err:
+        print("Something went wrong get_funds_by_currency: {}".format(err))
+
+    return myresult
+
 def insert_funds(_online_balance):
     successfully=False
     try:

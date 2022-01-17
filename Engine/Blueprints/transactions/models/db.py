@@ -52,7 +52,7 @@ def get_online_acc_id(_user_id):
     return myresult
 
 def get_acc_by_email(_email):
-    myresult=[] 
+    myresult=[-1] 
     try:
         mydb=connect()
         mycursor = mydb.cursor()
@@ -74,6 +74,22 @@ def get_funds_by_currency(_online_acc_id, _currency):
         mycursor = mydb.cursor()
         sql="SELECT * FROM online_account_balance WHERE online_account_id=%s AND currency=%s"
         parameters=(_online_acc_id,_currency)
+        mycursor.execute(sql,parameters)
+        myresult = mycursor.fetchall()
+        mycursor.close()
+        mydb.close()
+    except Error as err:
+        print("Something went wrong get_funds_by_currency: {}".format(err))
+
+    return myresult
+
+def get_currencies(_online_acc_id):
+    myresult=[-1] 
+    try:
+        mydb=connect()
+        mycursor = mydb.cursor()
+        sql="SELECT currency FROM online_account_balance WHERE online_account_id=%s "
+        parameters=(_online_acc_id,)
         mycursor.execute(sql,parameters)
         myresult = mycursor.fetchall()
         mycursor.close()

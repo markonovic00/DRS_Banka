@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template,jsonify,session,json
 import flask
-from .models.db import connect,check_session,insert_card,insert_online_ACC,insert_online_balance,get_online_acc_id,get_funds_by_currency,insert_funds,update_funds,get_funds,get_card_by_id
+import requests
+from .models.db import connect,check_session,insert_card,insert_online_ACC,insert_online_balance,get_online_acc_id,get_funds_by_currency,insert_funds,update_funds,get_funds,get_card_by_id,get_currencies
 from ..classes.user import User
 from ..classes.credit_card import Credit_Card,Online_ACC,Online_ACC_Balance
 
@@ -95,6 +96,33 @@ def addFunds():
             content_ret={'card':'funds added'}
         
 
+    return content_ret
+
+@online_acc.route('/getCurrenciesAddFunds', methods=['POST'])
+def getCurrenciesAddFunds():
+    content_ret={'curr':'none'}
+    try:
+        content=flask.request.json
+    except ValueError as err:
+        print("Something went wrong getCurrencies: {}".format(err))
+
+    _session_id=content['session_id']
+    user_id=check_session(_session_id)#vraca -1 ako ne moze da nadje korisnika, u suprotnom vraca id korisnika koji je ulogovan
+    if user_id!=-1:
+        _base_currency='USD'
+        res=requests.get('https://freecurrencyapi.net/api/v2/latest?apikey=c8823dc0-76bf-11ec-8f59-dd6de8678be4&base_currency='+_base_currency)
+        if(res.text):
+            print("Api Call Successful")
+            res=json.loads(res.text)
+            content_ret={
+                'curr':json.dumps(list(res['data'].keys()))
+            }
+            #content_ret['from']=online_currencies
+            #print(res['data'].keys())
+            return content_ret
+        else:
+            print("Error")
+        
     return content_ret
 
     
