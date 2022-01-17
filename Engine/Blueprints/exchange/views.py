@@ -45,21 +45,21 @@ def transfer():
         online_acc_id=online_acc[0][0]
         online_acc_balane=get_funds_by_currency(online_acc_id,_currency_from) 
         from_balance=Online_ACC_Balance(online_acc_balane[0][0],online_acc_balane[0][1],online_acc_balane[0][2])
-        if(int(from_balance.account_balance)>=int(_ammount)): # znaci da je moguce izvrsiti promenu, jer postoji dovoljno sredstava
-            balance_am=int(from_balance.account_balance)- int(_ammount) # skinemo kolicinu zamenjenih para
+        if(float(from_balance.account_balance)>=float(_ammount)): # znaci da je moguce izvrsiti promenu, jer postoji dovoljno sredstava
+            balance_am=float(from_balance.account_balance)- float(_ammount) # skinemo kolicinu zamenjenih para
             from_balance.account_balance=str(balance_am) # zabelezimo novu situaciju
             succ= update_funds(from_balance) # upisemo stanje u bazu
             # zatim treba dodati novo stanje sa novom valutom ili azurirati postojecu
             online_acc_balane=get_funds_by_currency(online_acc_id,_currency_to) 
             if len(online_acc_balane)==0:
                 #insert fund
-                new_ammount = int(_ammount)*exchange_rate # uradimo zamenu valute po nekom kursu
+                new_ammount = float(_ammount)*exchange_rate # uradimo zamenu valute po nekom kursu
                 new_balance=Online_ACC_Balance(online_acc_id,str(new_ammount),_currency_to)
                 succ=insert_funds(new_balance)
             else:
                 #update fund
                 new_balance=Online_ACC_Balance(online_acc_balane[0][0],online_acc_balane[0][1],online_acc_balane[0][2])
-                balance_am=int(new_balance.account_balance)+(int(_ammount) * exchange_rate) # zamena valute po kursu
+                balance_am=float(new_balance.account_balance)+(float(_ammount) * exchange_rate) # zamena valute po kursu
                 new_balance.account_balance=str(balance_am)
                 succ= update_funds(new_balance)
             if succ:
