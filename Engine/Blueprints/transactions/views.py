@@ -37,7 +37,7 @@ def transfer():
                 else:
                     #update fund
                     new_balance=Online_ACC_Balance(rec_online_acc_balane[0][0],rec_online_acc_balane[0][1],rec_online_acc_balane[0][2])
-                    balance_am=int(new_balance.account_balance)+int(_ammount)
+                    balance_am=float(new_balance.account_balance)+float(_ammount)
                     new_balance.account_balance=str(balance_am)
                     succ= update_funds(new_balance)
             else:
@@ -47,7 +47,7 @@ def transfer():
         online_acc_id=online_acc[0][0]
         online_acc_balane=get_funds_by_currency(online_acc_id,_currency) 
         new_balance=Online_ACC_Balance(online_acc_balane[0][0],online_acc_balane[0][1],online_acc_balane[0][2])
-        balance_am=int(new_balance.account_balance)-int(_ammount)
+        balance_am=float(new_balance.account_balance)-float(_ammount)
         if(balance_am>=0):
             new_balance.account_balance=str(balance_am)
             succ= update_funds(new_balance)

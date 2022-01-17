@@ -158,7 +158,7 @@ def get_all_transactions(_user_id):
     try:
         mydb=connect()
         mycursor = mydb.cursor()
-        sql="SELECT * FROM transactions WHERE oa_from_ID=%s"
+        sql="SELECT oa_to_ID, amount, currency FROM transactions WHERE oa_from_ID=%s"
         parameters=(_user_id,)
         mycursor.execute(sql,parameters)
         myresult = mycursor.fetchall()
