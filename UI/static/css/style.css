@@ -216,3 +216,15 @@ form {
     text-decoration: none;
     cursor: pointer;
   }
+
+  .filter {
+    width: 100%;
+    height: 46px;
+    font-family: pp-sans-big-medium,Helvetica Neue,Arial,sans-serif;
+    font-weight: 400;
+    font-variant: normal;
+    font-size: 15px;
+    border-radius: 3px;
+    padding-left: 10px;
+    border-color: rgb(191, 191, 191);
+}

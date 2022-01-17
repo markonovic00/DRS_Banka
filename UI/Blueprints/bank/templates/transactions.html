@@ -9,6 +9,17 @@
   <script type="text/javascript"
          src="{{ url_for('static', filename='js/jQuery.js') }}"></script>
   
+  <style>
+    th{ text-align: left;}
+    th:hover{
+      cursor:pointer;
+        }
+    td{text-align: left;}
+
+    
+
+  </style>
+
 </head>
 
 <body>
@@ -24,27 +35,202 @@
         <li class="topnav-li"><a class="topnav-a" href="{{ url_for('main.logOut') }}">Log out</a></li>
         <li class="topnav-li"><a class="topnav-a" href="{{ url_for('main.profile') }}">Profile</a></li>
       </ul>
-<div style="position: absolute; top: 50px; left: 300px;">
-
-    <button>Sort</button>
-    
-    <table>
-        <tr style="width: 100%;">
-            <th>ID</th>
-            <th>Sender</th>
-            <th>Receiver</th>
-            <th>Amount</th>
-            <th>Currency</th>
-        </tr>
+<div style="position: absolute; top: 60px; left: 260px; width: 60%;">
+    <table style="width:100%; border: none; margin: 0px; padding: 0px;">
+      <tr>
+        <td style="width: 70%;">
+          <table id="Transactions" style="width: 100%;">
+              <tr>
+                  <th onclick="sortTable(0)">Receiver</th>
+                  <th onclick="sortTable(1)">Amount</th>
+                  <th onclick="sortTable(2)">Currency</th>
+              </tr>
+              {%for item in data%}
+              <tr>
+                <td>
+                  {{item[0]}}
+                </td>
+                <td>
+                  {{item[1]}}
+                </td>
+                <td>
+                  {{item[2]}}
+                </td>
+              </tr>
+              {%endfor%}
+          </table>
+        </td>
+        <td>
+          <table style="width: 100%;">
+              <tr>
+                <td colspan="2"><input class="filter" type="text" id="To" onkeyup="filterTo()" placeholder="Search for Receiver..."></td>
+              </tr>
+              <tr>
+                <td colspan="2"><input class="filter" type="text" id="Curr" onkeyup="filterCurr()" placeholder="Search for Currency..."></td>
+              </tr>
+              <tr>
+                <td><input class="filter" type="text" id="FromA" onkeyup="filterA()" placeholder="From"></td>
+                <td><input class="filter" type="text" id="ToA" onkeyup="filterA()" placeholder="To"></td>
+              </tr>
+          </table>
+        </td>
+      </tr>
     </table>
-    <ul>
-      {%for item in data%}
-      <li>{{item}}</li>
-      {%endfor%}
-    </ul>
-
 </div>
     
 </body>
+
+<script>
+  function sortTable(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("Transactions");
+    switching = true;
+    // Set the sorting direction to ascending:
+    dir = "asc";
+    /* Make a loop that will continue until
+    no switching has been done: */
+    while (switching) {
+      // Start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      /* Loop through all table rows (except the
+      first, which contains table headers): */
+      for (i = 1; i < (rows.length - 1); i++) {
+        // Start by saying there should be no switching:
+        shouldSwitch = false;
+        /* Get the two elements you want to compare,
+        one from current row and one from the next: */
+        x = rows[i].getElementsByTagName("TD")[n];
+        y = rows[i + 1].getElementsByTagName("TD")[n];
+        /* Check if the two rows should switch place,
+        based on the direction, asc or desc: */
+        if (dir == "asc") {
+          if(n==1)
+          {
+            if (Number(x.innerHTML) > Number(y.innerHTML)) {
+              shouldSwitch = true;
+              break;
+            }
+          }
+          else{
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+        } else if (dir == "desc") {
+          if(n==1)
+          {
+            if (Number(x.innerHTML) < Number(y.innerHTML)) {
+              shouldSwitch = true;
+              break;
+            }
+          } else{
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+        }
+      }
+      if (shouldSwitch) {
+        /* If a switch has been marked, make the switch
+        and mark that a switch has been done: */
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        // Each time a switch is done, increase this count by 1:
+        switchcount ++;
+      } else {
+        /* If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again. */
+        if (switchcount == 0 && dir == "asc") {
+          dir = "desc";
+          switching = true;
+        }
+      }
+    }
+  }
+
+  function filterTo() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("To");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("Transactions");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+  }
+
+  function filterCurr() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("Curr");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("Transactions");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    // Loop through all table rows, and hide those who don't match the search query
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[2];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+
+    function filterA() {
+    // Declare variables
+    var from,to, table, tr, td, i, txtValue;
+    from = document.getElementById("FromA");
+    to = document.getElementById("ToA");
+    table = document.getElementById("Transactions");
+    tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    // Loop through all table rows, and hide those who don't match the search query
+    if(from.value !="" && to.value!=""){
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (Number(txtValue)<=Number(to.value) && Number(txtValue)>=Number(from.value)) {
+              tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    else{
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+              tr[i].style.display = "";
+        }
+      }
+    }
+  }
+
+  </script>
+
 
 </html>
