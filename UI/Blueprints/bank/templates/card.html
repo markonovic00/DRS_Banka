@@ -79,9 +79,10 @@
                             <tr>
                                 <td>
                                     <select name="currency" id="currency" class="form-control" style="width: 415px;">
-                                        <option selected>EU</option>
-                                        <option>$</option>
-                                        <option>RSD</option>
+                                        <option>USD</option>
+                                        {%for item in curr%}
+                                        <option>{{item}}</option>
+                                        {%endfor%}
                                     </select>
                                 </td>
                             </tr>

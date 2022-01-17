@@ -27,8 +27,14 @@ def dashboard():
 
 @bank.route('/card')
 def card():
-
-    return render_template("card.html")
+    _session_id=session.get('session')
+    if _session_id and session.get('session')!='-1' and session.get('session')!=None:
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
+        body=json.dumps({"session_id":_session_id})                 # Zahtev za api
+        res=requests.post("http://127.0.0.1:5000/api/getCurrenciesAddFunds", data=body,headers=headers) #-----
+        _json_res = res.json()
+        _currenc = _json_res['curr']
+    return render_template("card.html",  curr=json.loads(_currenc))
 
 @bank.route('/transactions')
 def transactions():
@@ -43,13 +49,26 @@ def transactions():
 
 @bank.route('/transfer')
 def transfer():
-
-    return render_template("transfer_money.html")
+    _session_id=session.get('session')
+    if _session_id and session.get('session')!='-1' and session.get('session')!=None:
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
+        body=json.dumps({"session_id":_session_id})                 # Zahtev za api
+        res=requests.post("http://127.0.0.1:5000/api/getOwnCurrencies", data=body,headers=headers) #-----
+        _json_res = res.json()
+        _currenc = _json_res['curr']
+    return render_template("transfer_money.html", curr=json.loads(_currenc))
 
 @bank.route('/exhange')
 def exchange():
-
-    return render_template("exchange.html")
+    _session_id=session.get('session')
+    if _session_id and session.get('session')!='-1' and session.get('session')!=None:
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
+        body=json.dumps({"session_id":_session_id})                 # Zahtev za api
+        res=requests.post("http://127.0.0.1:5000/api/getCurrencies", data=body,headers=headers) #-----
+        _json_res = res.json()
+        _from = _json_res['from']
+        _to = _json_res['to']
+    return render_template("exchange.html", _from=json.loads(_from),_to=json.loads(_to))
 
 @bank.route('/transferInitiate', methods=['POST'])
 def transferInitiate():

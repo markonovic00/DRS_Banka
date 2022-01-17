@@ -41,9 +41,9 @@
                 <td>
                   <select name="currencyFrom" id="currencyFrom" class="form-control" style="width: 415px;">
                     <option selected>From currency</option>
-                    <option>EU</option>
-                    <option>$</option>
-                    <option>RSD</option>
+                    {%for item in _from%}
+                    <option>{{item|replace('[\'','')|replace('\']','')}}</option>
+                    {%endfor%}
                 </select>
                 </td>
             </tr>
@@ -51,9 +51,10 @@
                 <td>
                   <select name="currencyTo" id="currencyTo" class="form-control" style="width: 415px;">
                     <option selected>To currency</option>
-                    <option>EU</option>
-                    <option>$</option>
-                    <option>RSD</option>
+                    <option>USD</option>
+                    {%for item in _to%}
+                    <option>{{item}}</option>
+                    {%endfor%}
                 </select>
                 </td>
             </tr>
