@@ -56,7 +56,7 @@ def verifyCard():
         new_online_ACC_ID=insert_online_ACC(new_online_ACC)
     #kada se vrati id accounta koji je ubacen tada se u online acc ubaci njegov ID
     if new_online_ACC_ID!=-1 and succ_card:
-        new_ACC_balance = Online_ACC_Balance(new_online_ACC_ID,0,"$")
+        new_ACC_balance = Online_ACC_Balance(new_online_ACC_ID,0,"USD")
         succ_balance=insert_online_balance(new_ACC_balance)
 
     if succ_balance and succ_card:
@@ -89,7 +89,7 @@ def addFunds():
         else:
             #update fund
             new_balance=Online_ACC_Balance(online_acc_balane[0][0],online_acc_balane[0][1],online_acc_balane[0][2])
-            balance_am=int(new_balance.account_balance)+int(_ammount)
+            balance_am=float(new_balance.account_balance)+float(_ammount)
             new_balance.account_balance=str(balance_am)
             succ= update_funds(new_balance)
         if succ:

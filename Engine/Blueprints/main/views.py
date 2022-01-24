@@ -3,6 +3,7 @@ import flask
 from .models.db import connect,check_session,get_user_by_id,check_user_login, insert_session_id, insert_user,check_if_exists,delete_session, update_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..classes.user import User
+from multiprocessing import Process, Queue
 
 main = Blueprint('main', __name__, template_folder="templates")
 
@@ -47,6 +48,22 @@ def logIn():
     return data
 
 
+def register_user_thread(content,q):
+    ret_con={'none','none'}
+    new_user = User(-1,content['first_name'],content['last_name'],content['address'],content['city'],content['country'],content['phone_number']
+        ,content['email'],content['password'])
+    
+    exists=check_if_exists(content['email'])
+    inserted=-1
+    if exists==-1:
+        inserted = insert_user(new_user)
+    else:
+        ret_con={'registered':'unsuccessfully, user with this email exists'}
+    if inserted!=-1:
+        ret_con={'registered':'successfully'}
+    
+    q.put(ret_con)
+
 @main.route("/registerUser", methods=['POST'])
 def register():
     content = {'none' : 'none'}
@@ -55,7 +72,7 @@ def register():
     except ValueError as err:
         print("Register content error {}".format(err))
     
-    new_user = User(-1,content['first_name'],content['last_name'],content['address'],content['city'],content['country'],content['phone_number']
+    """new_user = User(-1,content['first_name'],content['last_name'],content['address'],content['city'],content['country'],content['phone_number']
         ,content['email'],content['password'])
     
     exists=check_if_exists(content['email'])
@@ -65,8 +82,13 @@ def register():
     else:
         content={'registered':'unsuccessfully, user with this email exists'}
     if inserted!=-1:
-        content={'registered':'successfully'}
+        content={'registered':'successfully'}"""
 
+    q = Queue()
+    p = Process(target=register_user_thread, args=(content,q,))
+    p.start()
+    p.join()
+    content=q.get()    # prints "[42, None, 'hello']"
     return jsonify(content)
 
 

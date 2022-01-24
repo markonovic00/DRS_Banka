@@ -20,7 +20,7 @@ def profile():
     if _session_id and session.get('session')!='-1' and session.get('session')!=None: #provera da li uopse nesto postoji u session id
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         body = json.dumps({"session_id":_session_id})
-        response=requests.post("http://127.0.0.1:5000/api/getProfileInfo",data=body,headers=headers)
+        response=requests.post("http://host.docker.internal:5000/api/getProfileInfo",data=body,headers=headers)
         if response.text:
             user_data=json.loads(response.text)
     return render_template("profile.html",data=user_data) #prihvatat cemo session id u post methodi da ne dodje do prikazivanja i zloupotrebe
@@ -33,7 +33,7 @@ def logIn():
     if _email and _password: #Proveri da li su prazni
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
         body=json.dumps({"email":_email,"password":_password})                 # Zahtev za api
-        res=requests.post("http://127.0.0.1:5000/api/logInUser", data=body,headers=headers) #-----
+        res=requests.post("http://host.docker.internal:5000/api/logInUser", data=body,headers=headers) #-----
         _json_res=res.json() # Pretvorimo podatke u json
         _user_id = _json_res['user_id']
         _session_id=_json_res['session_id']
@@ -71,7 +71,7 @@ def registerCall():
 
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         body = json.dumps(new_user.__dict__)
-        res=requests.post("http://127.0.0.1:5000/api/registerUser", data=body,headers=headers)
+        res=requests.post("http://host.docker.internal:5000/api/registerUser", data=body,headers=headers)
         print(json.loads(res.text))
         _json_res=res.json() # Pretvorimo podatke u json
         _successfully = _json_res['registered']
@@ -88,7 +88,7 @@ def logOut():
     if _session_id and session.get('session')!='-1' and session.get('session')!=None: #provera da li uopse nesto postoji u session id
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         body = json.dumps({"session_id":_session_id})
-        response=requests.post("http://127.0.0.1:5000/api/logOut",data=body,headers=headers)
+        response=requests.post("http://host.docker.internal:5000/api/logOut",data=body,headers=headers)
         _json_res=response.json() # Pretvorimo podatke u json
         _successfully = _json_res['none']
         if _successfully=="logedOut":
@@ -113,7 +113,7 @@ def updateUser():
 
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         body = json.dumps(new_user.__dict__)
-        res=requests.post("http://127.0.0.1:5000/api/updateUser", data=body,headers=headers)
+        res=requests.post("http://host.docker.internal:5000/api/updateUser", data=body,headers=headers)
         print(json.loads(res.text))
         _json_res=res.json() # Pretvorimo podatke u json
         _successfully = _json_res['updated']

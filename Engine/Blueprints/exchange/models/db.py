@@ -7,10 +7,11 @@ def connect():
     connection=None
     try:
         connection = mysql.connector.connect(
-                    host="localhost",
+                    host="host.docker.internal",
                     user="root",
-                    password="",
-                    database="drs_banka"
+                    password="root",
+                    database="drs_banka",
+                    port="6033"
                     )
     except Error as err:
         print("Something went wrong connect: {}".format(err))
@@ -113,7 +114,7 @@ def insert_funds(_online_balance):
         mycursor.close()
         mydb.close()
     except Error as err:
-        print("Something went wrong insert_card: {}".format(err))
+        print("Something went wrong insert_funds: {}".format(err))
 
     return successfully
 

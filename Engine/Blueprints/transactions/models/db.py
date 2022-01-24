@@ -7,10 +7,11 @@ def connect():
     connection=None
     try:
         connection = mysql.connector.connect(
-                    host="localhost",
+                    host="host.docker.internal",
                     user="root",
-                    password="",
-                    database="drs_banka"
+                    password="root",
+                    database="drs_banka",
+                    port="6033"
                     )
     except Error as err:
         print("Something went wrong connect: {}".format(err))
@@ -135,13 +136,13 @@ def update_funds(_online_balance):
 
     return successfully
 
-def insert_transaction(_from,_to,_amount,_currency):
+def insert_transaction(_from,_to,_amount,_currency,_date_time):
     successfully=False
     try:
         mydb = connect()
         mycursor = mydb.cursor()
-        sql="INSERT INTO transactions (oa_from_ID,oa_to_ID,amount,currency) VALUES (%s,%s,%s,%s)"
-        parametes=(_from,_to,_amount,_currency)
+        sql="INSERT INTO transactions (oa_from_ID,oa_to_ID,amount,currency,date_time) VALUES (%s,%s,%s,%s,%s)"
+        parametes=(_from,_to,_amount,_currency,_date_time)
         mycursor.execute(sql,parametes)
         mydb.commit()
         if mycursor.rowcount>0:
@@ -158,7 +159,7 @@ def get_all_transactions(_user_id):
     try:
         mydb=connect()
         mycursor = mydb.cursor()
-        sql="SELECT oa_to_ID, amount, currency FROM transactions WHERE oa_from_ID=%s"
+        sql="SELECT oa_to_ID, amount, currency, date_time FROM transactions WHERE oa_from_ID=%s"
         parameters=(_user_id,)
         mycursor.execute(sql,parameters)
         myresult = mycursor.fetchall()

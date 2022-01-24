@@ -1,0 +1,15 @@
+1. Database
+    cmd -> docker-compose up -d
+
+    browser -> http://localhost:8081
+
+    pokrece docker bazu
+    treba importovati sql
+
+2. Engine
+    cmd -> docker image build -t docker-engine .
+    cmd -> docker run -p 5000:5000 -d docker-engine
+
+3. UI
+    cmd -> docker image build -t docker-ui .
+    cmd -> docker run -p 5001:5001 -d docker-ui

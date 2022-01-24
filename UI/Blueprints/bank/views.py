@@ -16,7 +16,7 @@ def dashboard():
     if _session_id and session.get('session')!='-1' and session.get('session')!=None:
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
         body=json.dumps({"session_id":_session_id})                 # Zahtev za api
-        res=requests.post("http://127.0.0.1:5000/api/dashboardData", data=body,headers=headers) #-----
+        res=requests.post("http://host.docker.internal:5000/api/dashboardData", data=body,headers=headers) #-----
         _json_res = res.json()  
         if _json_res:
             _balance=_json_res['balance']
@@ -31,7 +31,7 @@ def card():
     if _session_id and session.get('session')!='-1' and session.get('session')!=None:
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
         body=json.dumps({"session_id":_session_id})                 # Zahtev za api
-        res=requests.post("http://127.0.0.1:5000/api/getCurrenciesAddFunds", data=body,headers=headers) #-----
+        res=requests.post("http://host.docker.internal:5000/api/getCurrenciesAddFunds", data=body,headers=headers) #-----
         _json_res = res.json()
         _currenc = _json_res['curr']
     return render_template("card.html",  curr=json.loads(_currenc))
@@ -43,7 +43,7 @@ def transactions():
     if _session_id and session.get('session')!='-1' and session.get('session')!=None:
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
         body=json.dumps({"session_id":_session_id})                 # Zahtev za api
-        res=requests.post("http://127.0.0.1:5000/api/getAllTransactions", data=body,headers=headers) #-----
+        res=requests.post("http://host.docker.internal:5000/api/getAllTransactions", data=body,headers=headers) #-----
         _data=json.loads(res.text)
     return render_template("transactions.html", data=_data)
 
@@ -53,7 +53,7 @@ def transfer():
     if _session_id and session.get('session')!='-1' and session.get('session')!=None:
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
         body=json.dumps({"session_id":_session_id})                 # Zahtev za api
-        res=requests.post("http://127.0.0.1:5000/api/getOwnCurrencies", data=body,headers=headers) #-----
+        res=requests.post("http://host.docker.internal:5000/api/getOwnCurrencies", data=body,headers=headers) #-----
         _json_res = res.json()
         _currenc = _json_res['curr']
     return render_template("transfer_money.html", curr=json.loads(_currenc))
@@ -64,7 +64,7 @@ def exchange():
     if _session_id and session.get('session')!='-1' and session.get('session')!=None:
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
         body=json.dumps({"session_id":_session_id})                 # Zahtev za api
-        res=requests.post("http://127.0.0.1:5000/api/getCurrencies", data=body,headers=headers) #-----
+        res=requests.post("http://host.docker.internal:5000/api/getCurrencies", data=body,headers=headers) #-----
         _json_res = res.json()
         _from = _json_res['from']
         _to = _json_res['to']
@@ -81,7 +81,7 @@ def transferInitiate():
          if _currency and _amount:
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
             body=json.dumps({"transfer":_transfer_to,"currency":_currency,"amount":_amount,"session_id":_session_id})                 # Zahtev za api
-            res=requests.post("http://127.0.0.1:5000/api/transfer", data=body,headers=headers) #-----
+            res=requests.post("http://host.docker.internal:5000/api/transfer", data=body,headers=headers) #-----
             _json_res=res.json()
             content_ret=_json_res['status']
 
@@ -98,7 +98,7 @@ def exhangeInitiate():
          if _currency_from and _amount and _currency_to:
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
             body=json.dumps({"currencyfrom":_currency_from,"currencyto":_currency_to,"amount":_amount,"session_id":_session_id})                 # Zahtev za api
-            res=requests.post("http://127.0.0.1:5000/api/exchange", data=body,headers=headers) #-----
+            res=requests.post("http://host.docker.internal:5000/api/exchange", data=body,headers=headers) #-----
             _json_res=res.json()
             content_ret=_json_res['status']
 
@@ -118,12 +118,12 @@ def addCard():
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
             body=json.dumps({"card_number":_card_number,"user_name":_user_name,"pin_code":_pin_code,
                             "expiration_date":_expiration_date,"session_id":_session_id})                 # Zahtev za api
-            res=requests.post("http://127.0.0.1:5000/api/verifyOACC", data=body,headers=headers) #-----
+            res=requests.post("http://host.docker.internal:5000/api/verifyOACC", data=body,headers=headers) #-----
             _json_res=res.json()
             verified=_json_res['card']
             
 
-    return json.dumps({'html':'<span>'+verified+'</span>'})
+    return json.dumps(verified)
 
 @bank.route('/addFunds',methods=['POST'])
 def addFunds():
@@ -135,8 +135,11 @@ def addFunds():
          if _currency and _amount:
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} #-----------------
             body=json.dumps({"currency":_currency,"amount":_amount,"session_id":_session_id})                 # Zahtev za api
-            res=requests.post("http://127.0.0.1:5000/api/addFunds", data=body,headers=headers) #-----
+            res=requests.post("http://host.docker.internal:5000/api/addFunds", data=body,headers=headers) #-----
             _json_res=res.json()
             verified=_json_res['card']
     
-    return json.dumps({'html':'<span>'+verified+'</span>'})
+    return json.dumps(verified)
+
+
+    #host.docker.internal pre bilo 127.0.0.1 !!!!!!!!!!

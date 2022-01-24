@@ -44,6 +44,7 @@
                   <th onclick="sortTable(0)">Receiver</th>
                   <th onclick="sortTable(1)">Amount</th>
                   <th onclick="sortTable(2)">Currency</th>
+                  <th >Date Time</th>
               </tr>
               {%for item in data%}
               <tr>
@@ -55,6 +56,9 @@
                 </td>
                 <td>
                   {{item[2]}}
+                </td>
+                <td>
+                  {{item[3]}}
                 </td>
               </tr>
               {%endfor%}
